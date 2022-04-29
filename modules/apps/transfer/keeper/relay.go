@@ -239,7 +239,7 @@ func (k Keeper) OnRecvPacket(ctx sdk.Context, packet channeltypes.Packet, data t
 		}
 		token := sdk.NewCoin(denom, transferAmount)
 
-		if k.bankKeeper.BlockedAddr(receiver) {
+		if k.bankKeeper.BlockedAddr(ctx, receiver) {
 			return sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s is not allowed to receive funds", receiver)
 		}
 
