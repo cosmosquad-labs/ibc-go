@@ -63,6 +63,10 @@ func (k Keeper) SendTransfer(
 		return types.ErrSendDisabled
 	}
 
+	if strings.HasPrefix(token.Denom, "pool") {
+		return sdkerrors.Wrap(types.ErrNotAllowedDenom, token.Denom)
+	}
+
 	sourceChannelEnd, found := k.channelKeeper.GetChannel(ctx, sourcePort, sourceChannel)
 	if !found {
 		return sdkerrors.Wrapf(channeltypes.ErrChannelNotFound, "port ID (%s) channel ID (%s)", sourcePort, sourceChannel)

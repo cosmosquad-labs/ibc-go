@@ -33,6 +33,16 @@ func (suite *KeeperTestSuite) TestSendTransfer() {
 				suite.coordinator.CreateTransferChannels(path)
 				amount = sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100))
 			}, true, true},
+		{"not allowed denom transfer failed",
+			func() {
+				suite.coordinator.CreateTransferChannels(path)
+				amount = sdk.NewCoin("pool1", sdk.NewInt(100))
+			}, true, false},
+		{"not allowed denom transfer failed - 2",
+			func() {
+				suite.coordinator.CreateTransferChannels(path)
+				amount = sdk.NewCoin("pool1", sdk.NewInt(100))
+			}, false, false},
 		{"successful transfer with coin from counterparty chain",
 			func() {
 				// send coin from chainA back to chainB
